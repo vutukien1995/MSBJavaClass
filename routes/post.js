@@ -3,6 +3,7 @@ var router = express.Router();
 
 var Post = require('../models/Post');
 var Category = require('../models/Category');
+var Image = require('../models/Image');
 
 // Check Authenticating
 var isAuthenticated = function (req, res, next) {
@@ -16,12 +17,14 @@ var isAuthenticated = function (req, res, next) {
  */
 router.get('/create', isAuthenticated, async function(req, res){
 	try {
-		var categories = await Category.find({}).exec();
+		const categories = await Category.find({}).exec();
+		const images = await Image.find({}).exec();
 
 		res.render('post_create', {
 			title: 'Create new post',
 			categories: categories,
-			tab: 'blog'
+			tab: 'blog',
+			images: images
 		});
 	} catch (err) {
 		res.send({
@@ -46,24 +49,24 @@ router.post('/create', function(req, res){
 });
 
 /**
- * Show post
+ * Show a post
  */
 router.get('/show/:id', async function(req, res){
 	try {
 		const categories = await Category.find({}).exec();
 
-		
-		Post.findById(req.params.id).exec(function(err, post) {
-			if(err) return res.send(err);
+		const post = await Post.findById(req.params.id).populate("image").exec();
 
-			if(!post) return res.send("404 not found");
-			res.render('post', {
-				title: 'Post',
-				tab: 'blog',
-				user: req.user,
-				categories: categories,
-				post: post
-			});
+		if(!post) return res.send("404 not found");
+		
+		// return res.send(post);
+
+		res.render('post', {
+			title: 'Post',
+			tab: 'blog',
+			user: req.user,
+			categories: categories,
+			post: post
 		});
 	} catch (err) {
 		res.send({

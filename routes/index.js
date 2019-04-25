@@ -19,7 +19,8 @@ async function home(req, res) {
             console.log("==>>" + page);
         }
         
-        var options = {
+        const options = {
+            populate: "image",
             sort: { dateOfCreate: -1 },
             offset: parseInt(page),
             limit: 10

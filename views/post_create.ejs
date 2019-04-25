@@ -26,14 +26,22 @@
         <div class="row">
             <form method="POST" action="/post/create">
                 <input type="text" class="full-width"  name="title" placeholder="Title" />
-                <input type="text" class="full-width"  name="image" placeholder="Image" />
+                
+                <select class="full-width" name="image">
+                    <option value="">Please choose</option>
+                    <% for(var i=0; i<images.length; i++) { %>
+                        <option value="<%=images[i]._id%>">
+                            <%=images[i].url%>
+                        </option>
+                    <% } %>
+                </select>
                 <h5>Categories: </h5>
                 <% for(var i=0; i<categories.length; i++) { %>
                 <input type="checkbox" class="form-check-input" name="categories" value="<%=categories[i].name%>"> <%=categories[i].name%> 
                 <% if((i+1)%3 == 0){ %><br/><%}%>
                 <% } %>
                 <br />
-                <textarea id="editor"></textarea>
+                <textarea id="editor" name="content"></textarea>
                 <br />
                 <input type="submit" class="btn btn-primary" />
             </form>

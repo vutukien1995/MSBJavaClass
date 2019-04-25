@@ -8,7 +8,7 @@ let PostSchema = new Schema({
 
     title: { type: String },
     content: { type: String },
-    image: { type: String },
+    image: { type: Schema.Types.ObjectId, ref: 'Image' },
     categories: [{ type: String }],
 
     hashTags: [{ type: String }],
