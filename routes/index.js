@@ -6,14 +6,19 @@ var Image = require('../models/Image');
 var Category = require('../models/Category');
 
 /* GET home page. */
-router.get('/', function(req, res){
-	res.redirect('/0');
-});
+router.get('/', home);
+router.get('/:page', home);
 
-router.get('/:page', async function(req, res) {
+async function home(req, res) {
     try {
-        page = req.params.page;
-    
+        const page = req.params.page;
+
+        if(!page) {
+            console.log("==>> null");
+        } else {
+            console.log("==>>" + page);
+        }
+        
         var options = {
             sort: { dateOfCreate: -1 },
             offset: parseInt(page),
@@ -50,6 +55,6 @@ router.get('/:page', async function(req, res) {
             message: err.message
         });
     }
-});
+}
 
 module.exports = router;

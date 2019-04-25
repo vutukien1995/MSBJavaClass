@@ -50,8 +50,9 @@ router.post('/create', function(req, res){
  */
 router.get('/show/:id', async function(req, res){
 	try {
-		var categories = await Category.find({}).exec();
+		const categories = await Category.find({}).exec();
 
+		
 		Post.findById(req.params.id).exec(function(err, post) {
 			if(err) return res.send(err);
 
