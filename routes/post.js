@@ -4,27 +4,32 @@ var router = express.Router();
 var Post = require('../models/Post');
 var Category = require('../models/Category');
 var Image = require('../models/Image');
+var Commons = require('../commons/Authentication');
+var CommonsImage = require('../commons/Image');
 
-// Check Authenticating
-var isAuthenticated = function (req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-    res.redirect('/user/login');
-};
+// ============= Admin site =============
 
 /**
  * Create a new Post
  */
-router.get('/create', isAuthenticated, async function(req, res){
+router.get('/create', async function(req, res){
 	try {
 		const categories = await Category.find({}).exec();
 		const images = await Image.find({}).exec();
 
+		let post = await Post.findOne({ active: false }).populate('image').exec();
+
+		if(!post) {
+			post = new Post();
+		}
+
 		res.render('post_create', {
 			title: 'Create new post',
-			categories: categories,
 			tab: 'blog',
-			images: images
+			user: req.user,
+			categories: categories,
+			images: images,
+			post: post
 		});
 	} catch (err) {
 		res.send({
@@ -33,20 +38,85 @@ router.get('/create', isAuthenticated, async function(req, res){
         });
 	}
 });
-router.post('/create', function(req, res){
-	let post = new Post({
-		title : req.body.title,
-		image : req.body.image,
-		content : req.body.content,
-		categories : req.body.categories
-	});
+router.post('/save_ajax', async function(req, res){
+	try {
+		let post = await Post.findOne({ active: false }).exec();
 
-	post.save(function(err, newPost){
-		if(err) res.send(err);
+		post.title = req.body.title;
+		post.content = req.body.content;
+		post.categories = req.body.categories;
 
-		res.redirect('/post/show/'+newPost._id);
-	});
+		await post.save();
+		
+		res.status(200).send(post);
+	} catch (err) {
+		res.send({
+            name: err.name,
+            message: err.message
+        });
+	}
 });
+router.post('/upload_image', CommonsImage.upload_config, async function(req, res){
+	try {
+		const STATIC_URL = "/uploads/";
+
+		let post = await Post.findOne({ active: false }).exec();
+		// Check doesn't exist post active false
+		if(!post){
+			return res.redirect('/post/create');
+		}
+
+		let image = new Image({
+			url: STATIC_URL + req.files[0].filename,
+			path: req.files[0].path,
+			post: post._id
+		});
+		await image.save();
+
+		post.image = image._id;
+		await post.save();
+
+		res.redirect('/post/create');
+	} catch (err) {
+		console.log('[ERR]: ' + err);
+		res.send(err);
+	}
+});
+router.post('/create', async function(req, res){
+	try {
+		let post = await Post.findOne({ active: false }).exec();
+
+		post.active = true;
+
+		await post.save();
+		
+		res.redirect('/post/show/'+ post._id);
+	} catch (err) {
+		res.send({
+            name: err.name,
+            message: err.message
+        });
+	}
+});
+router.post('/delete/:id', async function(req, res){
+	try {
+		let post = await Post.findOne({ _id: req.params.id }).exec();
+
+		// await post.remove();
+		
+		// res.redirect('/');
+		res.send(post);
+	} catch (err) {
+		res.send({
+            name: err.name,
+            message: err.message
+        });
+	}
+});
+
+
+
+// ============= Blog site ============
 
 /**
  * Show a post
@@ -59,15 +129,15 @@ router.get('/show/:id', async function(req, res){
 
 		if(!post) return res.send("404 not found");
 		
-		// return res.send(post);
+		return res.send(post);
 
-		res.render('post', {
-			title: 'Post',
-			tab: 'blog',
-			user: req.user,
-			categories: categories,
-			post: post
-		});
+		// res.render('post', {
+		// 	title: 'Post',
+		// 	tab: 'blog',
+		// 	user: req.user,
+		// 	categories: categories,
+		// 	post: post
+		// });
 	} catch (err) {
 		res.send({
             name: err.name,

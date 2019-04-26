@@ -15,6 +15,7 @@ let PostSchema = new Schema({
     comments: [{ type: String }],
 
     views: { type: Number },
+    active: { type: Boolean, default: false },
 
     dateOfCreate: { type: Date, default: Date.now },
     dateOfUpdate: { type: Date }

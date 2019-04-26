@@ -56,16 +56,19 @@
                             <%}%>
                             </ul>
                         </li>
-                        <li class="<%if(tab=='blog'){%>current<%}%> has-children">
-                            <a href="#" title="">Blog</a>
+                        <li class="<%if(tab=='portfolio'){%>current<%}%>"><a href="/">Portfolio</a></li>
+                        <li class="<%if(tab=='about'){%>current<%}%>"><a href="/about">About</a></li>
+                        <% if(user){ %>
+                        <li class="<%if(tab=='admin'){%>current<%}%> has-children">
+                            <a href="#" title="">Admin</a>
                             <ul class="sub-menu">
                             <li><a href="/post/create">Create Post</a></li>
                             <li><a href="/image/upload">Upload Image</a></li>
                             <li><a href="/image/list">Image List</a></li>
+                            <li><a href="/user/logout">Log out</a></li>
                             </ul>
                         </li>
-                        <li class="<%if(tab=='admin'){%>current<%}%>"><a href="/user/login" title="">Admin</a></li>
-                        <li class="<%if(tab=='about'){%>current<%}%>"><a href="/about" title="">About</a></li>
+                        <% } %>
                     </ul> <!-- end header__nav -->
 
                     <a href="#" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>

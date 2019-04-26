@@ -15,6 +15,7 @@ var usersRouter = require('./routes/users');
 var postRouter = require('./routes/post');
 var imageRouter = require('./routes/image');
 var categoryRouter = require('./routes/category');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use('/user', usersRouter);
 app.use('/post', postRouter);
 app.use('/image', imageRouter);
 app.use('/category', categoryRouter);
+app.use('/admin', adminRouter);
 
 // Config Passport
 var User = require('./models/User');

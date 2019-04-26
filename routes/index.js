@@ -7,17 +7,15 @@ var Category = require('../models/Category');
 
 /* GET home page. */
 router.get('/', home);
-router.get('/:page', home);
+router.get('/page/:page', home);
 
 async function home(req, res) {
     try {
-        const page = req.params.page;
+        var page = req.params.page;
 
-        if(!page) {
-            console.log("==>> null");
-        } else {
-            console.log("==>>" + page);
-        }
+        if(!page || isNaN(page)) {
+            page = 0;
+        } 
         
         const options = {
             populate: "image",
@@ -26,15 +24,15 @@ async function home(req, res) {
             limit: 10
         };
 
-        var categories = await Category.find({}).exec();
+        const categories = await Category.find({}).exec();
         
-        Post.paginate({}, options).
+        Post.paginate({ active: true }, options).
         then(function (result) {
 
             //if (err) return res.send(err);
             var posts = result.docs;
 
-            posts.forEach(function(post) {
+            posts.forEach( async function(post) {
                 var str = post.content;
                 if(str) post.content = str.slice(0, 150);
             });
