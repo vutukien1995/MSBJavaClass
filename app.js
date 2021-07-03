@@ -33,7 +33,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret : "secret_key",
-    cookie: { maxAge: 1800000 } // 30 minutes until expire.
+    cookie: { 
+        maxAge: 1800000
+    
+    }, // 30 minutes until expire.
+    saveUninitialized: true,
+    resave: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
