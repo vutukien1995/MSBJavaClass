@@ -52,7 +52,7 @@ router.get('/:category/:page', async function(req, res){
 });
 
 /**
- * Search port
+ * Search post
  */
 router.get('/search_post', async function(req, res){
     try {
@@ -60,16 +60,18 @@ router.get('/search_post', async function(req, res){
         
         var categories = await Category.find({}).exec();
 
-        Post.find({ $text: { $search: key } }).
-        exec(function (err, result) {
+        Post.find({ $text: { $search: key } })
+        .exec(function (err, result) {
             //if (err) return res.send(err);
             console.log(result);
             var posts = result;
 
-            posts.forEach(function(post) {
-                var str = post.content;
-                if(str) post.content = str.slice(0, 120);
-            });
+            if(posts) {
+                posts.forEach(function(post) {
+                    var str = post.content;
+                    if(str) post.content = str.slice(0, 120);
+                });
+            }
 
             res.render('category', {
                 title: '',
@@ -112,6 +114,7 @@ router.get('/add_new', async function(req, res){
     }
 
 });
+
 router.post('/add_new', function(req, res){
 
     var category = new Category({

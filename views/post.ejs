@@ -30,18 +30,20 @@
                 </h1>
                 <ul class="s-content__header-meta">
                     <li class="date"><%= post.dateOfCreate.toLocaleDateString() %></li>
-                    <li class="cat">
-                        In
-                        <% for(var i=0; i<post.categories.length; i++) { %>
-                        <a href="#0"><%= post.categories[i] %></a>
-                        <% } %>
-                    </li>
+                    <%if(post.categories.length > 0){%>
+                        <li class="cat">
+                            In
+                            <% for(var i=0; i<post.categories.length; i++) { %>
+                            <a href="#0"><%= post.categories[i] %></a>
+                            <% } %>
+                        </li>
+                    <%}%>
                 </ul>
             </div> <!-- end s-content__header -->
     
             <div class="s-content__media col-full">
                 <div class="s-content__post-thumb">
-                    <img src="<%= post.image.url %>"  
+                    <img src="<%= post.image_url %>"  
                          sizes="(max-width: 2000px) 100vw, 2000px" alt="" >
                 </div>
             </div> <!-- end s-content__media -->

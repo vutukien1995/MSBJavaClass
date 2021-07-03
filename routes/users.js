@@ -38,21 +38,21 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-// router.get('/create_user', function(req, res){
-// 	var user = new User({
-// 		username: 'kien2',
-// 		password: 'deptrai'
-// 	});
+router.get('/create_user', function(req, res){
+	var user = new User({
+		username: 'admin',
+		password: 'kien'
+	});
 
-// 	user.save(function(err, new_user){
-// 		if(err) return res.send(err);
+	user.save(function(err, new_user){
+		if(err) return res.send(err);
 
-// 		res.send({ 
-// 			success: true, 
-// 			message: "Success !!",
-// 			user: new_user
-// 		});
-// 	});
-// });
+		res.send({ 
+			success: true, 
+			message: "Success !!",
+			user: new_user
+		});
+	});
+});
 
 module.exports = router;

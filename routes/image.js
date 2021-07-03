@@ -6,17 +6,19 @@ var fs = require('fs');
 
 var Image = require('../models/Image');
 var Category = require('../models/Category');
+var Commons = require('../commons/Authentication');
 
 /**
  * Upload a new Image
  */
-router.get('/upload', async function(req, res){
+router.get('/upload', Commons.isAuthenticated, async function(req, res){
 	try {
 		var categories = await Category.find({}).exec();
 		
 		res.render('image_upload', { 
 			title: 'Upload image',
 			tab: 'blog',
+			user: req.user,
 			categories: categories
 		});
 	} catch (err) {
@@ -26,7 +28,8 @@ router.get('/upload', async function(req, res){
         });
 	}
 });
-router.post('/upload', function(req, res){
+
+router.post('/upload', Commons.isAuthenticated, function(req, res){
 	// Initialize data
     let IMAGE_KEY = "image";
     let PREFIX_NAME = IMAGE_KEY+'_';
@@ -62,11 +65,10 @@ router.post('/upload', function(req, res){
     });
 });
 
-
 /**
  * Show list
  */
-router.get('/list', async function(req, res){
+router.get('/list', Commons.isAuthenticated, async function(req, res){
 	try {
 		var categories = await Category.find({}).exec();
 		

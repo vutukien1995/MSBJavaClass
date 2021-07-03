@@ -7,12 +7,12 @@ var Image = require('../models/Image');
 var Commons = require('../commons/Authentication');
 var CommonsImage = require('../commons/Image');
 
-// ============= Admin site =============
+// =================================== Admin site =====================================
 
 /**
- * Create a new Post
+ * Create a new Post for Admin
  */
-router.get('/create', async function(req, res){
+router.get('/create', Commons.isAuthenticated, async function(req, res){
 	try {
 		const categories = await Category.find({}).exec();
 		const images = await Image.find({}).exec();
@@ -22,6 +22,8 @@ router.get('/create', async function(req, res){
 		if(!post) {
 			post = new Post();
 		}
+
+		await post.save();
 
 		res.render('post_create', {
 			title: 'Create new post',
@@ -38,13 +40,15 @@ router.get('/create', async function(req, res){
         });
 	}
 });
-router.post('/save_ajax', async function(req, res){
+
+router.post('/save_ajax', Commons.isAuthenticated, async function(req, res){
 	try {
 		let post = await Post.findOne({ active: false }).exec();
 
 		post.title = req.body.title;
 		post.content = req.body.content;
 		post.categories = req.body.categories;
+		post.image_url = req.body.image_url;
 
 		await post.save();
 		
@@ -56,6 +60,7 @@ router.post('/save_ajax', async function(req, res){
         });
 	}
 });
+
 router.post('/upload_image', CommonsImage.upload_config, async function(req, res){
 	try {
 		const STATIC_URL = "/uploads/";
@@ -82,6 +87,7 @@ router.post('/upload_image', CommonsImage.upload_config, async function(req, res
 		res.send(err);
 	}
 });
+
 router.post('/create', async function(req, res){
 	try {
 		let post = await Post.findOne({ active: false }).exec();
@@ -98,6 +104,7 @@ router.post('/create', async function(req, res){
         });
 	}
 });
+
 router.post('/delete/:id', async function(req, res){
 	try {
 		let post = await Post.findOne({ _id: req.params.id }).exec();
@@ -116,7 +123,7 @@ router.post('/delete/:id', async function(req, res){
 
 
 
-// ============= Blog site ============
+// ========================================== Blog site ============================================
 
 /**
  * Show a post
@@ -124,20 +131,21 @@ router.post('/delete/:id', async function(req, res){
 router.get('/show/:id', async function(req, res){
 	try {
 		const categories = await Category.find({}).exec();
+		console.log("categories", categories);
 
 		const post = await Post.findById(req.params.id).populate("image").exec();
 
 		if(!post) return res.send("404 not found");
 		
-		return res.send(post);
+		// return res.send(post);
 
-		// res.render('post', {
-		// 	title: 'Post',
-		// 	tab: 'blog',
-		// 	user: req.user,
-		// 	categories: categories,
-		// 	post: post
-		// });
+		res.render('post', {
+			title: 'Post',
+			tab: 'blog',
+			user: req.user,
+			categories: categories,
+			post: post
+		});
 	} catch (err) {
 		res.send({
             name: err.name,
