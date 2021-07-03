@@ -7,6 +7,7 @@ var Category = require('../models/Category');
 
 /* GET home page. */
 router.get('/', home);
+router.get('/:page', home);
 router.get('/page/:page', home);
 
 async function home(req, res) {
