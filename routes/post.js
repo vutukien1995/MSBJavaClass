@@ -12,7 +12,7 @@ var CommonsImage = require('../commons/Image');
 /**
  * Create a new Post for Admin
  */
-router.get('/create', Commons.isAuthenticated, async function(req, res){
+router.get('/create', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		const categories = await Category.find({}).exec();
 		const images = await Image.find({}).exec();
@@ -38,10 +38,11 @@ router.get('/create', Commons.isAuthenticated, async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
-router.post('/save_ajax', Commons.isAuthenticated, async function(req, res){
+router.post('/save_ajax', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		let post = await Post.findOne({ active: false }).exec();
 
@@ -58,10 +59,11 @@ router.post('/save_ajax', Commons.isAuthenticated, async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
-router.post('/upload_image', CommonsImage.upload_config, async function(req, res){
+router.post('/upload_image', CommonsImage.upload_config, async function(req, res, next){
 	try {
 		const STATIC_URL = "/uploads/";
 
@@ -84,11 +86,15 @@ router.post('/upload_image', CommonsImage.upload_config, async function(req, res
 		res.redirect('/post/create');
 	} catch (err) {
 		console.log('[ERR]: ' + err);
-		res.send(err);
+		res.send({
+            name: err.name,
+            message: err.message
+        });
+		next(err);
 	}
 });
 
-router.post('/create', async function(req, res){
+router.post('/create', async function(req, res, next){
 	try {
 		let post = await Post.findOne({ active: false }).exec();
 
@@ -102,10 +108,11 @@ router.post('/create', async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
-router.post('/delete/:id', async function(req, res){
+router.post('/delete/:id', async function(req, res, next){
 	try {
 		let post = await Post.findOne({ _id: req.params.id }).exec();
 
@@ -118,6 +125,7 @@ router.post('/delete/:id', async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
@@ -128,7 +136,7 @@ router.post('/delete/:id', async function(req, res){
 /**
  * Show a post
  */
-router.get('/show/:id', async function(req, res){
+router.get('/show/:id', async function(req, res, next){
 	try {
 		const categories = await Category.find({}).exec();
 		console.log("categories", categories);
@@ -151,13 +159,14 @@ router.get('/show/:id', async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
 /**
  * Update a post
  */
-router.get('/update/:id', async function(req, res){
+router.get('/update/:id', async function(req, res, next){
 	try {
 		var categories = await Category.find({}).exec();
 
@@ -180,10 +189,11 @@ router.get('/update/:id', async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 	
 });
-router.post('/update', function(req, res){
+router.post('/update', function(req, res, next){
 	Post.findById(req.body.id).exec(function(err, post) {
 		if(err) return res.send(err);
 		if(!post) return res.send("404 not found");

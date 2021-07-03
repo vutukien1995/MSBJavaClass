@@ -7,7 +7,7 @@ var Category = require('../models/Category');
 var passport = require('passport');
 
 /* Login GET */
-router.get('/login', async function(req, res) {
+router.get('/login', async function(req, res, next) {
 	try {
 		var categories = await Category.find({}).exec();
 
@@ -22,6 +22,7 @@ router.get('/login', async function(req, res) {
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });	
 

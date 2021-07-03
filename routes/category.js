@@ -7,7 +7,7 @@ var Category = require('../models/Category');
 /**
  * Show a category
  */
-router.get('/:category/:page', async function(req, res){
+router.get('/:category/:page', async function(req, res, next){
     try {
         var page = req.params.page;
         
@@ -43,18 +43,20 @@ router.get('/:category/:page', async function(req, res){
                 user: req.user
             });
         });
+
     } catch (err) {
         res.send({
             name: err.name,
             message: err.message
         });
+        next(err);
     }
 });
 
 /**
  * Search post
  */
-router.get('/search_post', async function(req, res){
+router.get('/search_post', async function(req, res, next){
     try {
         var key = req.query.key;
         
@@ -89,10 +91,11 @@ router.get('/search_post', async function(req, res){
             name: err.name,
             message: err.message
         });
+        next(err);
     }
 });
 
-router.get('/add_new', async function(req, res){
+router.get('/add_new', async function(req, res, next){
     try {
         var categories = await Category.find({}).exec();
         
@@ -111,6 +114,7 @@ router.get('/add_new', async function(req, res){
             name: err.name,
             message: err.message
         });
+        next(err);
     }
 
 });

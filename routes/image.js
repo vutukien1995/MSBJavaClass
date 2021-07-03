@@ -11,7 +11,7 @@ var Commons = require('../commons/Authentication');
 /**
  * Upload a new Image
  */
-router.get('/upload', Commons.isAuthenticated, async function(req, res){
+router.get('/upload', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		var categories = await Category.find({}).exec();
 		
@@ -26,10 +26,11 @@ router.get('/upload', Commons.isAuthenticated, async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
-router.post('/upload', Commons.isAuthenticated, function(req, res){
+router.post('/upload', Commons.isAuthenticated, function(req, res, next){
 	// Initialize data
     let IMAGE_KEY = "image";
     let PREFIX_NAME = IMAGE_KEY+'_';
@@ -68,7 +69,7 @@ router.post('/upload', Commons.isAuthenticated, function(req, res){
 /**
  * Show list
  */
-router.get('/list', Commons.isAuthenticated, async function(req, res){
+router.get('/list', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		var categories = await Category.find({}).exec();
 		
@@ -91,6 +92,7 @@ router.get('/list', Commons.isAuthenticated, async function(req, res){
             name: err.name,
             message: err.message
         });
+		next(err);
 	}
 });
 
@@ -98,7 +100,7 @@ router.get('/list', Commons.isAuthenticated, async function(req, res){
 /**
  * Delete image
  */
-router.get('/delete/:id', function(req, res){
+router.get('/delete/:id', function(req, res, next){
 
 	Image.findById(req.params.id, function(err, image){
 		if(err) return res.send(err);

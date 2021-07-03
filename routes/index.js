@@ -10,7 +10,7 @@ router.get('/', home);
 router.get('/:page', home);
 router.get('/page/:page', home);
 
-async function home(req, res) {
+async function home(req, res, next) {
     try {
         var page = req.params.page;
 
@@ -54,6 +54,7 @@ async function home(req, res) {
             name: err.name,
             message: err.message
         });
+        next(err);
     }
 }
 

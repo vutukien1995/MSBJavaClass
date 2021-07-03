@@ -33,9 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret : "secret_key",
-    cookie: { 
+    cookie: {
+        secure: true,
         maxAge: 1800000
-    
     }, // 30 minutes until expire.
     saveUninitialized: true,
     resave: false
