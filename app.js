@@ -16,6 +16,7 @@ var postRouter = require('./routes/post');
 var imageRouter = require('./routes/image');
 var categoryRouter = require('./routes/category');
 var adminRouter = require('./routes/admin');
+var quoteRouter = require('./routes/quote');
 
 var app = express();
 
@@ -25,12 +26,13 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Config passport
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());       
+// app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(session({
     secret : "secret_key",
     cookie: {
@@ -50,6 +52,7 @@ app.use('/post', postRouter);
 app.use('/image', imageRouter);
 app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
+app.use('/quote', quoteRouter);
 
 // Config Passport
 var User = require('./models/User');

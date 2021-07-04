@@ -12,6 +12,4 @@ let ImageSchema = new Schema({
     dateOfUpdate: { type: Date }
 });
 
-mongoose.model('Image', ImageSchema);
-
-module.exports = mongoose.model('Image');
+module.exports = mongoose.model('Image', ImageSchema);

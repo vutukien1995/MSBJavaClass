@@ -31,6 +31,12 @@ router.get('/upload', Commons.isAuthenticated, async function(req, res, next){
 });
 
 router.post('/upload', Commons.isAuthenticated, function(req, res, next){
+
+	// if(req.body) {
+	// 	console.log("===============>>>>>>>>>> ", req.files);
+	// 	return res.send(req.body);
+	// }
+
 	// Initialize data
     let IMAGE_KEY = "image";
     let PREFIX_NAME = IMAGE_KEY+'_';
@@ -50,9 +56,12 @@ router.post('/upload', Commons.isAuthenticated, function(req, res, next){
     let upload = multer({ storage: storage }).array(IMAGE_KEY, 10);
 
     upload(req, res, function (err) {
-        if (err) return res.status(500).json({success: false, errors: err});
+        if (err) 
+			return res.status(500).json({success: false, errors: err});
+
         // Validate files
-        if (req.files.length<=0) return res.status(401).json({success: false, message: 'Bad request, missing '+ IMAGE_KEY + ' files.'  });
+        if (req.files.length<=0) 
+			return res.status(400).json({success: false, message: 'Bad request, missing '+ IMAGE_KEY + ' files.'  });
 		
 		let image = new Image({
 			url: STATIC_URL + req.files[0].filename,

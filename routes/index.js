@@ -4,6 +4,7 @@ var router = express.Router();
 var Post = require('../models/Post');
 var Image = require('../models/Image');
 var Category = require('../models/Category');
+var Quote = require('../models/Quote');
 
 /* GET home page. */
 router.get('/', home);
@@ -11,8 +12,6 @@ router.get('/page/:page', home);
 
 async function home(req, res, next) {
     try {
-        console.log("===>>> user: ", req.user);
-        console.log("===>>> authenticated", req.isAuthenticated())
         var page = req.params.page;
 
         if(!page || isNaN(page)) {
@@ -27,7 +26,17 @@ async function home(req, res, next) {
         };
 
         const categories = await Category.find({}).exec();
-        
+        let quote;
+        const quotes = await Quote.find({}).exec();
+        console.log("=========>>>>>>>", quotes);
+        if (quotes != null) {
+            let randomNumber = Math.floor(Math.random()*quotes.length);
+            console.log("=========>>>>>>>", randomNumber);
+            quote = quotes[randomNumber];
+        }
+
+        console.log("=========>>>>>>>", quote);
+
         Post.paginate({ active: true }, options).
         then(function (result) {
 
@@ -47,7 +56,8 @@ async function home(req, res, next) {
                 pages: result.total/result.limit+1,
                 page: result.offset+1,
                 limit: result.limit,
-                user: req.isAuthenticated()
+                user: req.user,
+                quote: quote
             });
         });
     } catch (err) {

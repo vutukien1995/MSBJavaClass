@@ -124,9 +124,13 @@
                 <article class="masonry__brick entry format-quote" data-aos="fade-up">
                     <div class="entry__thumb">
                         <blockquote>
+                            <% if( quote ) { %>
+                                <p><%= quote.content %></p>
+                                <cite><%= quote.author %></cite>
+                            <% } else{ %> 
                                 <p>Color my life with chaos of trouble.</p>
-
-                                <cite>Koas</cite>
+                                <cite>Someone</cite>
+                            <% } %>
                         </blockquote>
                     </div>
                 </article> <!-- end article -->
