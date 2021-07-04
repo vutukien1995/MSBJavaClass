@@ -94,7 +94,7 @@ router.post('/upload_image', CommonsImage.upload_config, async function(req, res
 	}
 });
 
-router.post('/create', async function(req, res, next){
+router.post('/create', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		let post = await Post.findOne({ active: false }).exec();
 
@@ -112,7 +112,7 @@ router.post('/create', async function(req, res, next){
 	}
 });
 
-router.post('/delete/:id', async function(req, res, next){
+router.post('/delete/:id', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		let post = await Post.findOne({ _id: req.params.id }).exec();
 
@@ -166,22 +166,22 @@ router.get('/show/:id', async function(req, res, next){
 /**
  * Update a post
  */
-router.get('/update/:id', async function(req, res, next){
+router.get('/update/:id', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		var categories = await Category.find({}).exec();
-
-		var posts = await Post.find({}).exec();
 
 		Post.findById(req.params.id).exec(function(err, post) {
 			if(err) return res.send(err);
 
-			if(!post) return res.send("404 not found");
+			if(!post) return res.send("404 not found for update");
+			console.log("===============>>>>>>>>>>>>>>", post);
 			res.render('post_update', { 
 				title: 'Post',
 				tab: 'blog',
+				user: req.user,
 				categories: categories,
-				post: post,
-				posts: posts
+				post: post
+
 			});
 		});
 	} catch (err) {
@@ -193,12 +193,15 @@ router.get('/update/:id', async function(req, res, next){
 	}
 	
 });
-router.post('/update', function(req, res, next){
+
+router.post('/update', Commons.isAuthenticated, function(req, res, next){
+	console.log("===============>>>>>>>>>>", req.body.id);
+	console.log("===============>>>>>>>>>>", req.body.title);
 	Post.findById(req.body.id).exec(function(err, post) {
 		if(err) return res.send(err);
-		if(!post) return res.send("404 not found");
+		if(!post) return res.send("404 not found post to update");
 		post.title = req.body.title;
-		post.image = req.body.image;
+		post.image_url = req.body.image_url;
 		post.content = req.body.content;
 		post.categories = req.body.categories;
 
