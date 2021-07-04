@@ -7,11 +7,12 @@ var Category = require('../models/Category');
 
 /* GET home page. */
 router.get('/', home);
-router.get('/:page', home);
 router.get('/page/:page', home);
 
 async function home(req, res, next) {
     try {
+        console.log("===>>> user: ", req.user);
+        console.log("===>>> authenticated", req.isAuthenticated())
         var page = req.params.page;
 
         if(!page || isNaN(page)) {
@@ -46,7 +47,7 @@ async function home(req, res, next) {
                 pages: result.total/result.limit+1,
                 page: result.offset+1,
                 limit: result.limit,
-                user: req.user
+                user: req.isAuthenticated()
             });
         });
     } catch (err) {

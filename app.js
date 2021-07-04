@@ -34,11 +34,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret : "secret_key",
     cookie: {
-        secure: true,
+        // secure: true,
         maxAge: 1800000
     }, // 30 minutes until expire.
-    saveUninitialized: true,
-    resave: false
+    // saveUninitialized: true,
+    // resave: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
