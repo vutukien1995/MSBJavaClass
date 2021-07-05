@@ -49,7 +49,7 @@ async function home(req, res, next) {
             });
 
             res.render('index', {
-                title: 'Blog K',
+                title: 'Blog neko',
                 tab: 'home',
                 posts: posts,
                 categories: categories,
