@@ -18,7 +18,8 @@ public class Main {
         tuyenSinh.themThiSinh(thiSinh3);
 
         tuyenSinh.hienThiSinh();
-        tuyenSinh.timThiSinh("00s1");
+        tuyenSinh.timThiSinh("001");
+
     }
 
 }
