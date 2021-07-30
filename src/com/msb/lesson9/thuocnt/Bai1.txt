@@ -1,0 +1,22 @@
+﻿
+Bài 1: Lý thuyết (nộp bằng file text):
+a. Liệt kê tất cả các loại dữ liệu nguyên thủy trong java
+Trả lời:
+Có 8 kiểu dữ liệu nguyên thủy trong java
+	Kiểu
+	boolean: true hoặc false
+	byte:	Số nguyên từ (-128 .. 127)
+	char:	Ký tự Unicode
+	short:	Số nguyên(16 bit)
+	int:	Số nguyên(32 bit)
+	long	Số nguyên dài(64 bit)	
+	float	Số thực	(32 bit)
+	double	Số thực (64 bit)
+
+b. Liệt kê 4 kiểu dữ liệu không phải nguyên thủy trong java
+Kiểu dữ liệu đối tượng
+- Do Framwork định nghĩa: String, Scanner
+- Do người dùng định nghĩa: Chính là những class define ví dụ: KhachHang, Pet,...
+
+
+

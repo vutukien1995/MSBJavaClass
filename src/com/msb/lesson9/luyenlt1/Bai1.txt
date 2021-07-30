@@ -1,0 +1,15 @@
+﻿Bài 1:
+a. Các loại dữ liệu nguyên thủy trong java, gồm:
+    + Integer
+    + Float
+    + Char
+    + Boolean
+    + Double
+    + Long
+    + Byte
+    + Short
+b. Bốn kiểu dữ liệu không phải nguyên thủy trong java:
+    + String
+    + Array
+    + Object
+    + Class

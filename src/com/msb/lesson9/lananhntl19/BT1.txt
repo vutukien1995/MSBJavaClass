@@ -1,0 +1,6 @@
+BT1:
+a. Liệt kê tất cả các loại dữ liệu nguyên thủy trong java:
+Byte, long, short, double, float, char, int, blooean
+
+b. Liệt kê 4 kiểu dữ liệu không phải nguyên thủy trong java:
+String, Class, Array, Object
