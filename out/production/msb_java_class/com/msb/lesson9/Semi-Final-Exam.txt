@@ -1,0 +1,24 @@
+Bài 1: Lý thuyết (nộp bằng file text):
+a. Liệt kê tất cả các loại dữ liệu nguyên thủy trong java
+b. Liệt kê 4 kiểu dữ liệu không phải nguyên thủy trong java
+
+Bài 2: Viết chương trình nhập vào 1 xâu ký tự bất kỳ.
+In ra xâu đảo ngược với xâu đã nhập.
+
+Bài 3: Viết chương trình nhập vào một mảng số nguyên có n phần tử (dùng mảng Array)
+a) Xuất giá trị các phần tử của mảng.
+b) Tìm phần tử có giá trị lớn nhất, nhỏ nhất.
+c) Sắp xếp mảng tăng dần
+
+Bài 4: Viết chương trình quản lý hóa đơn bán hàng tại quầy.
+Đơn hàng gồm các thông tin: mã đơn, tên khách hàng, sản phẩm mua hàng
+Sản phẩm gồm các thông tin: mã sản phẩm, bảng giá, số lượng, thành tiền
+
+a. Hãy xây dựng lớp HoaDon để lưu trữ thông tin hóa đơn.
+b. Xây dựng lớp SanPham để lưu thông tin sản phẩm
+c. Xây dựng các phương thức thêm, xóa, sửa các thông tin hóa đơn
+d. Viết phương thức tính thành tiền = bảng giá*số lượng
+(Mỗi hóa đơn có chỉ gồm 1 loại sản phẩm duy nhất)
+
+Lưu ý:
+Nếu không dùng console để nhập thông tin, comment hành động đoạn nhập thông tin đố trên code.
