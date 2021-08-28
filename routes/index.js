@@ -7,10 +7,15 @@ var Category = require('../models/Category');
 var Quote = require('../models/Quote');
 
 /* GET home page. */
-router.get('/', home);
-router.get('/page/:page', home);
+router.get('/', function(req, res, next){
+    res.redirect('/home/0');
+});
 
-async function home(req, res, next) {
+router.get('/home', function(req, res, next){
+    res.redirect('/home/0');
+});
+
+router.get('/home/:page', async function home(req, res, next) {
     try {
         var page = req.params.page;
 
@@ -22,25 +27,23 @@ async function home(req, res, next) {
             populate: "image",
             sort: { dateOfCreate: -1 },
             offset: parseInt(page),
-            limit: 10
+            limit: 12
         };
 
         const categories = await Category.find({}).exec();
+        
+        // Get quote to show
         let quote;
         const quotes = await Quote.find({}).exec();
-        console.log("=========>>>>>>>", quotes);
         if (quotes != null) {
             let randomNumber = Math.floor(Math.random()*quotes.length);
             console.log("=========>>>>>>>", randomNumber);
             quote = quotes[randomNumber];
         }
 
-        console.log("=========>>>>>>>", quote);
-
         Post.paginate({ active: true }, options).
         then(function (result) {
 
-            //if (err) return res.send(err);
             var posts = result.docs;
 
             posts.forEach( async function(post) {
@@ -67,6 +70,8 @@ async function home(req, res, next) {
         });
         next(err);
     }
-}
+});
+
+
 
 module.exports = router;

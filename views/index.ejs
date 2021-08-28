@@ -179,11 +179,15 @@
             <div class="col-full">
                 <nav class="pgn">
                     <ul>
-                        <li><a class="pgn__prev" href="#0">Prev</a></li>
-                        <% for( var i = 1; i<=pages; i++) { %>
-                            <li><a class="pgn__num <% if(i===page){ %>current<% } %>" href="/<%=i-1%>"><%= i %></a></li>
+                        <% if(page>1) { %>
+                            <li><a class="pgn__prev" href="/home/<%=page-2%>">Prev</a></li>
                         <% } %>
-                        <li><a class="pgn__next" href="#0">Next</a></li>
+                        <% for(var i = 1; i<=pages; i++) { %>
+                            <li><a class="pgn__num <% if(i===page){ %>current<% } %>" href="/home/<%=i-1%>"><%= i %></a></li>
+                        <% } %>
+                        <% if(page<pages-1) { %>
+                            <li><a class="pgn__next" href="/home/<%=page%>">Next</a></li>
+                        <% } %>
                     </ul>
                 </nav>
             </div>
