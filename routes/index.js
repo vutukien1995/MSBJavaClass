@@ -45,7 +45,7 @@ router.get('/home/:page', async function home(req, res, next) {
 
             console.log('total: ', result.total);
             console.log('offset: ', result.offset);
-            console.log('pages: ', Math.round(result.total/result.limit));
+            console.log('pages: ', Math.ceil(result.total/result.limit));
 
             var posts = result.docs;
 
@@ -59,7 +59,7 @@ router.get('/home/:page', async function home(req, res, next) {
                 tab: 'home',
                 posts: posts,
                 categories: categories,
-                pages: Math.round(result.total/result.limit),
+                pages: Math.ceil(result.total/result.limit),
                 page: result.offset+1,
                 limit: result.limit,
                 user: req.user,
