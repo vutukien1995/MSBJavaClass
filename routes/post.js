@@ -50,6 +50,10 @@ router.post('/save_ajax', Commons.isAuthenticated, async function(req, res, next
 	try {
 		let post = await Post.findOne({ active: false }).exec();
 
+		console.log('title: ', req.body.title);
+		console.log('categories: ', req.body.categories);
+		console.log('image_url: ', req.body.image_url);
+
 		post.title = req.body.title;
 		post.content = req.body.content;
 		post.categories = req.body.categories;
@@ -134,44 +138,10 @@ router.post('/delete/:id', Commons.isAuthenticated, async function(req, res, nex
 	}
 });
 
-
-
-// ========================================== Blog site ============================================
-
-/**
- * Show a post
- */
-router.get('/show/:id', async function(req, res, next){
-	try {
-		const categories = await Category.find({}).exec();
-		console.log("categories", categories);
-
-		const post = await Post.findById(req.params.id).populate("image").exec();
-
-		if(!post) return res.send("404 not found");
-		
-		// return res.send(post);
-
-		res.render('post', {
-			title: 'Post',
-			tab: 'blog',
-			user: req.user,
-			categories: categories,
-			post: post
-		});
-	} catch (err) {
-		res.send({
-            name: err.name,
-            message: err.message
-        });
-		next(err);
-	}
-});
-
 /**
  * Update a post
  */
-router.get('/update/:id', Commons.isAuthenticated, async function(req, res, next){
+ router.get('/update/:id', Commons.isAuthenticated, async function(req, res, next){
 	try {
 		var categories = await Category.find({}).exec();
 
@@ -216,6 +186,41 @@ router.post('/update', Commons.isAuthenticated, function(req, res, next){
 			res.redirect('/post/show/'+newPost._id);
 		});
 	});
+});
+
+
+
+
+// ========================================== Blog site ============================================
+
+/**
+ * Show a post
+ */
+router.get('/show/:id', async function(req, res, next){
+	try {
+		const categories = await Category.find({}).exec();
+		console.log("categories", categories);
+
+		const post = await Post.findById(req.params.id).populate("image").exec();
+
+		if(!post) return res.send("404 not found");
+		
+		// return res.send(post);
+
+		res.render('post', {
+			title: 'Post',
+			tab: 'blog',
+			user: req.user,
+			categories: categories,
+			post: post
+		});
+	} catch (err) {
+		res.send({
+            name: err.name,
+            message: err.message
+        });
+		next(err);
+	}
 });
 
 

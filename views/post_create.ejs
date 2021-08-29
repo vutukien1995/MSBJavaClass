@@ -37,12 +37,13 @@
 
                 <h4>Categories: </h4>
                 <% for(var i=0; i<categories.length; i++) { %>
-                <input type="checkbox" class="form-check-input form_input categories" name="categories" value="<%=categories[i].name%>"
-                <% if(post.categories.includes(categories[i].name)){ %> checked <% } %>
-                > <%=categories[i].name%> 
-                <% if((i+1)%3 == 0){ %><br/><%}%>
+                    <input type="checkbox" class="form-check-input form_input categories" name="categories" value="<%=categories[i].name%>"
+                    <% if(post.categories.includes(categories[i].name)){ %> checked <% } %>
+                    > <%=categories[i].name%> 
+                    <% if((i+1)%3 == 0){ %><br/><%}%>
                 <% } %>
                 <br />
+
                 <textarea class="form_input" id="editor" name="content">
                     <%= post.content %>
                 </textarea>
@@ -65,18 +66,22 @@
             });
 
             $('.form_input').change(function(){
-                $.ajax({
-                    url: '/post/save_ajax',
-                    type: 'POST',
-                    data: {
-                        title: $('#title').val(),
-                        categories: $('input:checked').map(function (idx, ele) {return $(ele).val();}).get(),
-                        content: $('#editor').val(),
-                        image_url: $('#image_url').val(),
-                    }
-                }).done(function(result) {
-                    console.log(result);
+                var categoriesArray = [];
+                $.each($("input[name='categories']:checked"), function(){
+                    categoriesArray.push($(this).val());
                 });
+                var data = {
+                    title: $('#title').val(),
+                    categories: JSON.stringify(categoriesArray),
+                    content: $('#editor').val(),
+                    image_url: $('#image_url').val(),
+                }
+                console.log('data:', data);
+
+                $.post('/post/save_ajax', data, function(result) {
+                    console.log(result);
+                }, "json");
+
             });
             
         });

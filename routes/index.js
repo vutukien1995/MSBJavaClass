@@ -18,7 +18,6 @@ router.get('/home', function(req, res, next){
 router.get('/home/:page', async function home(req, res, next) {
     try {
         var page = req.params.page;
-
         if(!page || isNaN(page)) {
             page = 0;
         } 

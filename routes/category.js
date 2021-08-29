@@ -10,6 +10,9 @@ var Category = require('../models/Category');
 router.get('/:category/:page', async function(req, res, next){
     try {
         var page = req.params.page;
+        if(!page || isNaN(page)) {
+            page = 0;
+        } 
         
         var categories = await Category.find({}).exec();
         var category = await Category.findOne({ name: req.params.category }).exec();
@@ -17,13 +20,16 @@ router.get('/:category/:page', async function(req, res, next){
         var options = {
             sort: { dateOfCreate: -1 },
             offset: parseInt(page),
-            limit: 5
+            limit: 12
         };
         
         Post.paginate({ categories: req.params.category }, options).
         then(function (result) {
 
-            //if (err) return res.send(err);
+            console.log('total: ', result.total);
+            console.log('offset: ', result.offset);
+            console.log('pages: ', Math.ceil(result.total/result.limit));
+
             var posts = result.docs;
 
             posts.forEach(function(post) {
@@ -37,8 +43,8 @@ router.get('/:category/:page', async function(req, res, next){
                 categories: categories,
                 category: category,
                 posts: posts,
-                pages: result.total/result.limit + 1,
-                page: result.offset + 1,
+                pages: Math.ceil(result.total/result.limit),
+                page: result.offset+1,
                 limit: result.limit,
                 user: req.user
             });
