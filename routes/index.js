@@ -27,7 +27,7 @@ router.get('/home/:page', async function home(req, res, next) {
             populate: "image",
             sort: { dateOfCreate: -1 },
             offset: parseInt(page),
-            limit: 5
+            limit: 12
         };
 
         const categories = await Category.find({}).exec();
