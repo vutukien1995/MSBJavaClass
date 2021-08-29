@@ -27,7 +27,7 @@ router.get('/home/:page', async function home(req, res, next) {
             populate: "image",
             sort: { dateOfCreate: -1 },
             offset: parseInt(page),
-            limit: 12
+            limit: 5
         };
 
         const categories = await Category.find({}).exec();
@@ -44,6 +44,10 @@ router.get('/home/:page', async function home(req, res, next) {
         Post.paginate({ active: true }, options).
         then(function (result) {
 
+            console.log('total: ', result.total);
+            console.log('offset: ', result.offset);
+            console.log('pages: ', Math.round(result.total/result.limit));
+
             var posts = result.docs;
 
             posts.forEach( async function(post) {
@@ -56,7 +60,7 @@ router.get('/home/:page', async function home(req, res, next) {
                 tab: 'home',
                 posts: posts,
                 categories: categories,
-                pages: result.total/result.limit+1,
+                pages: Math.round(result.total/result.limit),
                 page: result.offset+1,
                 limit: result.limit,
                 user: req.user,

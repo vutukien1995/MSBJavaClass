@@ -7,6 +7,10 @@ var Image = require('../models/Image');
 var Commons = require('../commons/Authentication');
 var CommonsImage = require('../commons/Image');
 
+
+
+
+
 // =================================== Admin site =====================================
 
 /**
@@ -99,6 +103,7 @@ router.post('/create', Commons.isAuthenticated, async function(req, res, next){
 		let post = await Post.findOne({ active: false }).exec();
 
 		post.active = true;
+		post.dateOfCreate = Date.now
 
 		await post.save();
 		
@@ -117,8 +122,8 @@ router.post('/delete/:id', Commons.isAuthenticated, async function(req, res, nex
 		let post = await Post.findOne({ _id: req.params.id }).exec();
 
 		// await post.remove();
-		
 		// res.redirect('/');
+
 		res.send(post);
 	} catch (err) {
 		res.send({

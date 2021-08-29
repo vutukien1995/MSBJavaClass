@@ -185,7 +185,7 @@
                         <% for(var i = 1; i<=pages; i++) { %>
                             <li><a class="pgn__num <% if(i===page){ %>current<% } %>" href="/home/<%=i-1%>"><%= i %></a></li>
                         <% } %>
-                        <% if(page<pages-1) { %>
+                        <% if(page<pages) { %>
                             <li><a class="pgn__next" href="/home/<%=page%>">Next</a></li>
                         <% } %>
                     </ul>
