@@ -48,7 +48,7 @@ debitAccount có số dư >= amount
 		=> message = "Remark dài quá 200 kí tự"
 		=> errCode = "MSGERR02"
  */
-package com.msb.lesson11.TanNT9;
+package com.msb.lesson11.TanNT9.junit;
 
 import org.junit.Assert;
 import org.junit.FixMethodOrder;

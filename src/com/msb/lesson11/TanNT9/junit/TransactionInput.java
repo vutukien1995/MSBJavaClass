@@ -1,4 +1,4 @@
-package com.msb.lesson11.TanNT9;
+package com.msb.lesson11.TanNT9.junit;
 
 public class TransactionInput {
 	 private String creditAccount;

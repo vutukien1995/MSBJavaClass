@@ -1,4 +1,4 @@
-package com.msb.lesson11.TanNT9;
+package com.msb.lesson11.TanNT9.junit;
 import com.google.gson.Gson;
 
 public class TransactionServiceAPI {

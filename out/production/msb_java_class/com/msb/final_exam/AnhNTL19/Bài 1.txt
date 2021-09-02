@@ -1,0 +1,25 @@
+Bài 1:
+1. Java là gì?
+- Java là 1 ngôn ngữ lập trình hướng đối tượng, bảo mật, mạnh mẽ và được ứng dụng trong nhiều lĩnh vực khác nhau
+
+2.Một đối tượng trong java là gì?
+- Đối tượng là một thực thể (thể hiện) của một lớp class, và một thực thể có 2 đặc điểm: trạng thái và hành vi.
+
+3.Nếu 4 khái niệm chính trong lập trình hướng đối tượng OPP?
+- Tính đóng gói
+- Tính kế thừa
+- Tính đa hình
+- Tính trừu tượng
+
+4. Junit là gì?
+- Junit là một framework unit testing của lập trình hướng đối tượng java.
+
+5. Một unit TC là gì?
+- Một unit TC là một đoạn code, sẽ gửi đi 1 thông điệp và kiểm tra câu trả lời nhận được đúng hay không bao gồm:
++ Các kq trả về mong muốn
++ Các lỗi ngoại lệ mong muốn
+
+6. Assert class dùng để làm gì?
+- Assert class là một phương thức cho phép chúng ta xác định thông báo lỗi (error message), kết quả mong đợi (expected) và kết quả thực tế (actual)
+
+

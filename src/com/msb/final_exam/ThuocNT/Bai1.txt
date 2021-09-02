@@ -1,0 +1,18 @@
+Bài 1:
+1. Java là gì?
+-> Java là một ngôn ngữ lập trình bậc cao, hướng đối tượng (OOP) và dựa trên các lớp (class)
+2. Một đối tượng (Object) trong java là gì?
+-> Đối tượng(Object) trong java là một thực thể có 2 đặc điểm: trạng thái (state) và hành vi (behavior). Một đối tượng
+ là một thể hiện của một lớp(Class). Trạng thái được lưu trữ trong các trường, hành vi được hiển thị qua phương thức.
+3. Nêu 4 khái niệm chính trong lập trình hướng đối tượng OPP.
+- Tính đóng gói (Encapsulation):  là tiến trình che giấu việc thực thi những chi tiết của một đối tượng đối với người sử dụng đối tượng ấy.
+Các đối tượng khác không thể tác động trực tiếp đến dữ liệu bên trong và làm thay đổi trạng thái của đối tượng mà bắt buộc phải thông qua các phương thức công khai do đối tượng đó cung cấp
+- Tính kế thừa (Inheritance): cho phép các đối tượng chia sẻ hay mở rộng các đặc tính sẵn có mà không phải định nghĩa lại.
+- Tính đa hình (Polymorphism): cho phép một phương thức có các tác động khác nhau trên nhiều loại đối tượng khác nhau. Với tính đa hình, nếu cùng một phương thức ứng dụng cho các đối tượng thuộc các lớp khác nhau thì nó đưa đến những kết quả khác nhau.
+- Tính trừu tượng (Abstraction): là tiến trình xác định và nhóm các thuộc tính, các hành động liên quan đến một thực thể đặc thù, xét trong mối tương quan với ứng dụng đang phát triển.
+4. JUnit là gì?
+-> JUnit là một framework được sử dụng cho mục đích kiểm thử đơn vị (unit testing) cho ngôn ngữ lập trình Java. Được dùng cho việc tạo các unit testing tự động và chạy các test có thể lặp đi lặp lại.
+5. Một Unit TestCase là gì?
+-> Một Unit TestCaselà 1 chuỗi code để đảm bảo rằng đoạn code được kiểm thử làm việc như mong đợi.
+6. Assert class dùng để làm gì?
+-> Assert class là một lớp cung cấp các phương thức dùng để kiểm tra kết quả của đơn vị cần test (Unit TestCase) có đúng với mong đợi không.
