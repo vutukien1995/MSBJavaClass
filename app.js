@@ -17,6 +17,7 @@ var imageRouter = require('./routes/image');
 var categoryRouter = require('./routes/category');
 var adminRouter = require('./routes/admin');
 var quoteRouter = require('./routes/quote');
+var chatroomRouter = require('./routes/chatroom');
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.use('/image', imageRouter);
 app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
 app.use('/quote', quoteRouter);
+app.use('/chatroom', chatroomRouter);
 
 // Config Passport
 var User = require('./models/User');
