@@ -3,11 +3,12 @@ var router = express.Router();
 
 var Post = require('../models/Post');
 var Category = require('../models/Category');
+var Commons = require('../commons/Authentication');
 
 /**
  * Show a category
  */
-router.get('/:category/:page', async function(req, res, next){
+router.get('/topic/:category/:page', async function(req, res, next){
     try {
         var page = req.params.page;
         if(!page || isNaN(page)) {
@@ -16,6 +17,14 @@ router.get('/:category/:page', async function(req, res, next){
         
         var categories = await Category.find({}).exec();
         var category = await Category.findOne({ name: req.params.category }).exec();
+
+        if (!category) {
+            res.status(404).send({
+                code: 404,
+                message: 'Not found that category'
+            });
+            return
+        }
 
         var options = {
             sort: { dateOfCreate: -1 },
@@ -87,8 +96,9 @@ router.get('/search_post', async function(req, res, next){
                 categories: categories,
                 category: '',
                 posts: posts,
-                limit: result.limit,
                 pages: 0,
+                page: result.offset+1,
+                limit: result.limit,
                 user: req.user
             });
         });
@@ -101,7 +111,14 @@ router.get('/search_post', async function(req, res, next){
     }
 });
 
-router.get('/add_new', async function(req, res, next){
+
+
+// ========================== ADMIN SITE ========================
+
+/**
+ * Screen add new category
+ */
+router.get('/add_new', Commons.isAuthenticated, async function(req, res, next){
     try {
         var categories = await Category.find({}).exec();
         
@@ -125,7 +142,10 @@ router.get('/add_new', async function(req, res, next){
 
 });
 
-router.post('/add_new', function(req, res){
+/**
+ * Add new a category
+ */
+router.post('/add_new', Commons.isAuthenticated, function(req, res){
 
     var category = new Category({
         name : req.body.name,
@@ -137,6 +157,35 @@ router.post('/add_new', function(req, res){
 
         req.flash('message', 'Add new category: ' + category.name);
 
+        res.redirect('/category/add_new');
+    });
+
+});
+
+/**
+ * GET: delete a category
+ */
+router.get('/delete/:id', Commons.isAuthenticated, async function(req, res, next) {
+    let id = req.params.id;
+    if (!id) {
+        res.status(400).send({
+            code: '400',
+            message: 'Missing id'
+        });
+        return;
+    }
+
+    Category.findByIdAndDelete(id, (err) => {
+        if(err) {
+            console.log(err);
+            res.status(405).send({
+                code: '405',
+                message: err.message
+            });
+        }
+
+        req.flash('message', 'Deleted a category away!');
+        
         res.redirect('/category/add_new');
     });
 
