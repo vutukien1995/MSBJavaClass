@@ -1,6 +1,6 @@
 # Project for personal blog
 
-# Feature using
+## Feature using
 - Express node.js
 - MongoDB, mongoose
 - EJS engine view
