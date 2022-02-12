@@ -107,7 +107,7 @@ router.post('/create', Commons.isAuthenticated, async function(req, res, next){
 		let post = await Post.findOne({ active: false }).exec();
 
 		post.active = true;
-		post.dateOfCreate = Date.now
+		post.dateOfCreate = Date.now();
 
 		await post.save();
 		
@@ -179,6 +179,7 @@ router.post('/update', Commons.isAuthenticated, function(req, res, next){
 		post.image_url = req.body.image_url;
 		post.content = req.body.content;
 		post.categories = req.body.categories;
+		post.dateOfUpdate = Date.now();
 
 		post.save(function(err, newPost){
 			if(err) res.send(err);
